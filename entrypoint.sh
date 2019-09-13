@@ -17,8 +17,8 @@ if [ -z "$AWS_SECRET_ACCESS_KEY" ]; then
   exit 1
 fi
 
-if [ -z "$AWS_REGION" ]; then
-  echo "AWS_REGION is not set. Quitting."
+if [ -z "$AWS_DEFAULT_REGION" ]; then
+  echo "AWS_DEFAULT_REGION is not set. Quitting."
   exit 1
 fi
 
@@ -34,27 +34,22 @@ echo "[default]
 aws_access_key_id = ${AWS_ACCESS_KEY_ID}
 aws_secret_access_key = ${AWS_SECRET_ACCESS_KEY}" > ~/.aws/credentials
 
-echo "option 1"
-echo ${AWS_S3_BUCKET}
-echo "option 2"
-echo $AWS_S3_BUCKET
-
-${AWS_S3_BUCKET}
+cat ~/.aws/credentials
 
 if [ -d "$SOURCE_DIR/variables" ]; then
-    aws s3 sync $SOURCE_DIR/variables s3://${AWS_S3_BUCKET}/variables --exact-timestamps --delete --region ${AWS_REGION} $*
+    aws s3 sync $SOURCE_DIR/variables s3://${AWS_S3_BUCKET}/variables --exact-timestamps --delete --region ${AWS_DEFAULT_REGION} $*
 fi
 
 if [ -d "$SOURCE_DIR/requirements" ]; then
-    aws s3 sync $SOURCE_DIR/requirements s3://${AWS_S3_BUCKET}/requirements --exact-timestamps --delete --region ${AWS_REGION} $*
+    aws s3 sync $SOURCE_DIR/requirements s3://${AWS_S3_BUCKET}/requirements --exact-timestamps --delete --region ${AWS_DEFAULT_REGION} $*
 fi
 
 if [ -d "$SOURCE_DIR/dags" ]; then
-    aws s3 sync $SOURCE_DIR/dags s3://${AWS_S3_BUCKET}/dags --exact-timestamps --delete --region ${AWS_REGION} $*
+    aws s3 sync $SOURCE_DIR/dags s3://${AWS_S3_BUCKET}/dags --exact-timestamps --delete --region ${AWS_DEFAULT_REGION} $*
 fi
 
 if [ -d "$SOURCE_DIR/plugins" ]; then
-    aws s3 sync $SOURCE_DIR/plugins s3://${AWS_S3_BUCKET}/plugins --exact-timestamps --delete --region ${AWS_REGION} $*
+    aws s3 sync $SOURCE_DIR/plugins s3://${AWS_S3_BUCKET}/plugins --exact-timestamps --delete --region ${AWS_DEFAULT_REGION} $*
 fi
 
 rm -rf ~/.aws
