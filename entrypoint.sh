@@ -34,6 +34,8 @@ echo "[default]
 aws_access_key_id = ${AWS_ACCESS_KEY_ID}
 aws_secret_access_key = ${AWS_SECRET_ACCESS_KEY}" > ~/.aws/credentials
 
+env
+
 if [ -d "$SOURCE_DIR/variables" ]; then
     aws s3 sync ${SOURCE_DIR}/variables s3://${AWS_S3_BUCKET}/variables --exact-timestamps --debug --delete --region ${AWS_DEFAULT_REGION} $*
 fi
