@@ -1,5 +1,4 @@
 #!/bin/sh
-sh -c "$*"
 
 set -e
 
@@ -35,16 +34,8 @@ echo "[default]
 aws_access_key_id = ${AWS_ACCESS_KEY_ID}
 aws_secret_access_key = ${AWS_SECRET_ACCESS_KEY}" > ~/.aws/credentials
 
- aws configure list
+aws s3 ls s3://${AWS_S3_BUCKET}/dags
  
- aws s3 ls s3://${AWS_S3_BUCKET}
- 
-ls -al ${SOURCE_DIR}
-
-ls -al ${SOURCE_DIR}/variables
-
-echo ${SOURCE_DIR}
-
 if [ -d "$SOURCE_DIR/variables" ]; then
     aws s3 sync ${SOURCE_DIR}/variables s3://${AWS_S3_BUCKET}/variables --exact-timestamps --delete --region ${AWS_DEFAULT_REGION} $*
 fi
