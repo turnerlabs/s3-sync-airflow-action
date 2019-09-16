@@ -38,9 +38,15 @@ aws_secret_access_key = ${AWS_SECRET_ACCESS_KEY}" > ~/.aws/credentials
  aws configure list
  
  aws s3 ls s3://${AWS_S3_BUCKET}
+ 
+ls -al ${SOURCE_DIR}
+
+ls -al ${SOURCE_DIR}/variables
+
+echo ${SOURCE_DIR}
 
 if [ -d "$SOURCE_DIR/variables" ]; then
-    aws s3 sync ${SOURCE_DIR}/variables s3://${AWS_S3_BUCKET}/variables --exact-timestamps --debug --delete --region ${AWS_DEFAULT_REGION} $*
+    aws s3 sync ${SOURCE_DIR}/variables s3://${AWS_S3_BUCKET}/variables --exact-timestamps --delete --region ${AWS_DEFAULT_REGION} $*
 fi
 
 if [ -d "$SOURCE_DIR/requirements" ]; then
