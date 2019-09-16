@@ -18,8 +18,6 @@ jobs:
     steps:
     - uses: actions/checkout@master
     - uses: turnerlabs/s3-sync-airflow-action@master
-      with:
-        args: --acl public-read
       env:
         SOURCE_DIR: '/public'
         AWS_DEFAULT_REGION: 'us-east-1'
