@@ -50,4 +50,12 @@ if [ -d "$SOURCE_DIR/plugins" ]; then
     aws s3 sync ${SOURCE_DIR}/plugins s3://${AWS_S3_BUCKET}/plugins --exact-timestamps --delete --region ${AWS_DEFAULT_REGION} $*
 fi
 
+if [ -d "$SOURCE_DIR/sql" ]; then
+    aws s3 sync ${SOURCE_DIR}/sql s3://${AWS_S3_BUCKET}/sql --exact-timestamps --delete --region ${AWS_DEFAULT_REGION} $*
+fi
+
+if [ -d "$SOURCE_DIR/turner_lib" ]; then
+    aws s3 sync ${SOURCE_DIR}/turner_lib s3://${AWS_S3_BUCKET}/turner_lib --exact-timestamps --delete --region ${AWS_DEFAULT_REGION} $*
+fi
+
 rm -rf ~/.aws
