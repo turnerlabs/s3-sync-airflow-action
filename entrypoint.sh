@@ -38,7 +38,8 @@ if [ -d "$SOURCE_DIR/variables" ]; then
     aws s3 sync ${SOURCE_DIR}/variables s3://${AWS_S3_BUCKET}/variables --exact-timestamps --delete --region ${AWS_DEFAULT_REGION} $*
 else
   if [ "`aws s3 ls s3://$S3_AIRFLOW_BUCKET/variables/`" != "" ]; then
-      aws s3 rb s3://${AWS_S3_BUCKET}/variables --force
+      aws s3 rm s3://${AWS_S3_BUCKET}/variables/ --recursive
+      aws s3 rm s3://${AWS_S3_BUCKET}/variables
   fi
 fi
 
@@ -47,7 +48,8 @@ if [ -d "$SOURCE_DIR/requirements" ]; then
 else
 
   if [ "`aws s3 ls s3://$S3_AIRFLOW_BUCKET/requirements/`" != "" ]; then
-      aws s3 rb s3://${AWS_S3_BUCKET}/requirements --force
+      aws s3 rm s3://${AWS_S3_BUCKET}/requirements/ --recursive
+      aws s3 rm s3://${AWS_S3_BUCKET}/requirements
   fi
 fi
 
@@ -55,7 +57,8 @@ if [ -d "$SOURCE_DIR/dags" ]; then
     aws s3 sync ${SOURCE_DIR}/dags s3://${AWS_S3_BUCKET}/dags --exact-timestamps --delete --region ${AWS_DEFAULT_REGION} $*
 else
   if [ "`aws s3 ls s3://$S3_AIRFLOW_BUCKET/dags/`" != "" ]; then
-      aws s3 rb s3://${AWS_S3_BUCKET}/dags --force
+      aws s3 rm s3://${AWS_S3_BUCKET}/dags/ --recursive
+      aws s3 rm s3://${AWS_S3_BUCKET}/dags
   fi
 fi
 
@@ -63,7 +66,8 @@ if [ -d "$SOURCE_DIR/plugins" ]; then
     aws s3 sync ${SOURCE_DIR}/plugins s3://${AWS_S3_BUCKET}/plugins --exact-timestamps --delete --region ${AWS_DEFAULT_REGION} $*
 else
   if [ "`aws s3 ls s3://$S3_AIRFLOW_BUCKET/plugins/`" != "" ]; then
-      aws s3 rb s3://${AWS_S3_BUCKET}/plugins --force
+      aws s3 rm s3://${AWS_S3_BUCKET}/plugins/ --recursive
+      aws s3 rm s3://${AWS_S3_BUCKET}/plugins
   fi
 fi
 
@@ -71,7 +75,8 @@ if [ -d "$SOURCE_DIR/sql" ]; then
     aws s3 sync ${SOURCE_DIR}/sql s3://${AWS_S3_BUCKET}/sql --exact-timestamps --delete --region ${AWS_DEFAULT_REGION} $*
 else
   if [ "`aws s3 ls s3://$S3_AIRFLOW_BUCKET/sql/`" != "" ]; then
-      aws s3 rb s3://${AWS_S3_BUCKET}/sql --force
+      aws s3 rm s3://${AWS_S3_BUCKET}/sql/ --recursive
+      aws s3 rm s3://${AWS_S3_BUCKET}/sql
   fi
 fi
 
@@ -79,7 +84,8 @@ if [ -d "$SOURCE_DIR/turner_lib" ]; then
     aws s3 sync ${SOURCE_DIR}/turner_lib s3://${AWS_S3_BUCKET}/turner_lib --exact-timestamps --delete --region ${AWS_DEFAULT_REGION} $*
 else
   if [ "`aws s3 ls s3://$S3_AIRFLOW_BUCKET/turner_lib/`" != "" ]; then
-      aws s3 rb s3://${AWS_S3_BUCKET}/turner_lib --force
+      aws s3 rm s3://${AWS_S3_BUCKET}/turner_lib/ --recursive
+      aws s3 rm s3://${AWS_S3_BUCKET}/turner_lib
   fi
 fi
 
