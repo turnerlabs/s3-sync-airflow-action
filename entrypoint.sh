@@ -36,26 +36,38 @@ aws_secret_access_key = ${AWS_SECRET_ACCESS_KEY}" > ~/.aws/credentials
  
 if [ -d "$SOURCE_DIR/variables" ]; then
     aws s3 sync ${SOURCE_DIR}/variables s3://${AWS_S3_BUCKET}/variables --exact-timestamps --delete --region ${AWS_DEFAULT_REGION} $*
+else
+    aws s3 rb s3://${AWS_S3_BUCKET}/variables --force  
 fi
 
 if [ -d "$SOURCE_DIR/requirements" ]; then
     aws s3 sync ${SOURCE_DIR}/requirements s3://${AWS_S3_BUCKET}/requirements --exact-timestamps --delete --region ${AWS_DEFAULT_REGION} $*
+else
+    aws s3 rb s3://${AWS_S3_BUCKET}/requirements --force  
 fi
 
 if [ -d "$SOURCE_DIR/dags" ]; then
     aws s3 sync ${SOURCE_DIR}/dags s3://${AWS_S3_BUCKET}/dags --exact-timestamps --delete --region ${AWS_DEFAULT_REGION} $*
+else
+    aws s3 rb s3://${AWS_S3_BUCKET}/dags --force  
 fi
 
 if [ -d "$SOURCE_DIR/plugins" ]; then
     aws s3 sync ${SOURCE_DIR}/plugins s3://${AWS_S3_BUCKET}/plugins --exact-timestamps --delete --region ${AWS_DEFAULT_REGION} $*
+else
+    aws s3 rb s3://${AWS_S3_BUCKET}/plugins --force  
 fi
 
 if [ -d "$SOURCE_DIR/sql" ]; then
     aws s3 sync ${SOURCE_DIR}/sql s3://${AWS_S3_BUCKET}/sql --exact-timestamps --delete --region ${AWS_DEFAULT_REGION} $*
+else
+    aws s3 rb s3://${AWS_S3_BUCKET}/sql --force  
 fi
 
 if [ -d "$SOURCE_DIR/turner_lib" ]; then
     aws s3 sync ${SOURCE_DIR}/turner_lib s3://${AWS_S3_BUCKET}/turner_lib --exact-timestamps --delete --region ${AWS_DEFAULT_REGION} $*
+else
+    aws s3 rb s3://${AWS_S3_BUCKET}/turner_lib --force  
 fi
 
 rm -rf ~/.aws
