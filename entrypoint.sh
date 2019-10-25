@@ -45,6 +45,7 @@ fi
 if [ -d "$SOURCE_DIR/requirements" ]; then
     aws s3 sync ${SOURCE_DIR}/requirements s3://${AWS_S3_BUCKET}/requirements --exact-timestamps --delete --region ${AWS_DEFAULT_REGION} $*
 else
+
   if [ "`aws s3 ls s3://$S3_AIRFLOW_BUCKET/requirements/`" != "" ]; then
       aws s3 rb s3://${AWS_S3_BUCKET}/requirements --force
   fi
