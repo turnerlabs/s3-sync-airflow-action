@@ -35,6 +35,7 @@ aws_access_key_id = ${AWS_ACCESS_KEY_ID}
 aws_secret_access_key = ${AWS_SECRET_ACCESS_KEY}" > ~/.aws/credentials
  
 if [ -d "$SOURCE_DIR/variables" ]; then
+    echo "Copying to variables folder"
     aws s3 sync ${SOURCE_DIR}/variables s3://${AWS_S3_BUCKET}/variables --exact-timestamps --delete --region ${AWS_DEFAULT_REGION} $*
 else
   if [ "`aws s3 ls s3://$S3_AIRFLOW_BUCKET/variables/`" != "" ]; then
@@ -46,6 +47,7 @@ else
 fi
 
 if [ -d "$SOURCE_DIR/requirements" ]; then
+    echo "Copying to requirements folder"
     aws s3 sync ${SOURCE_DIR}/requirements s3://${AWS_S3_BUCKET}/requirements --exact-timestamps --delete --region ${AWS_DEFAULT_REGION} $*
 else
   if [ "`aws s3 ls s3://$S3_AIRFLOW_BUCKET/requirements/`" != "" ]; then
@@ -57,6 +59,7 @@ else
 fi
 
 if [ -d "$SOURCE_DIR/dags" ]; then
+    echo "Copying to dags folder"
     aws s3 sync ${SOURCE_DIR}/dags s3://${AWS_S3_BUCKET}/dags --exact-timestamps --delete --region ${AWS_DEFAULT_REGION} $*
 else
   if [ "`aws s3 ls s3://$S3_AIRFLOW_BUCKET/dags/`" != "" ]; then
@@ -68,6 +71,7 @@ else
 fi
 
 if [ -d "$SOURCE_DIR/plugins" ]; then
+    echo "Copying to plugins folder"
     aws s3 sync ${SOURCE_DIR}/plugins s3://${AWS_S3_BUCKET}/plugins --exact-timestamps --delete --region ${AWS_DEFAULT_REGION} $*
 else
   if [ "`aws s3 ls s3://$S3_AIRFLOW_BUCKET/plugins/`" != "" ]; then
@@ -79,6 +83,7 @@ else
 fi
 
 if [ -d "$SOURCE_DIR/sql" ]; then
+    echo "Copying to sql folder"
     aws s3 sync ${SOURCE_DIR}/sql s3://${AWS_S3_BUCKET}/sql --exact-timestamps --delete --region ${AWS_DEFAULT_REGION} $*
 else
   if [ "`aws s3 ls s3://$S3_AIRFLOW_BUCKET/sql/`" != "" ]; then
@@ -90,6 +95,7 @@ else
 fi
 
 if [ -d "$SOURCE_DIR/turner_lib" ]; then
+    echo "Copying to turner_lib folder"
     aws s3 sync ${SOURCE_DIR}/turner_lib s3://${AWS_S3_BUCKET}/turner_lib --exact-timestamps --delete --region ${AWS_DEFAULT_REGION} $*
 else
   if [ "`aws s3 ls s3://$S3_AIRFLOW_BUCKET/turner_lib/`" != "" ]; then
@@ -99,5 +105,7 @@ else
       echo "Remove turner_lib folder completed"      
   fi
 fi
+
+echo "Cleaning up things"
 
 rm -rf ~/.aws
