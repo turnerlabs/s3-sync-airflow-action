@@ -27,13 +27,18 @@ if [ -z "$SOURCE_DIR" ]; then
   exit 1
 fi
 
+if [ -z "$AWS_MWAA_ENVIRONMENT" ]; then
+  echo "AWS_MWAA_ENVIRONMENT is not set. Quitting."
+  exit 1
+fi
+
 mkdir -p ~/.aws
 touch ~/.aws/credentials
 
 echo "[default]
 aws_access_key_id = ${AWS_ACCESS_KEY_ID}
 aws_secret_access_key = ${AWS_SECRET_ACCESS_KEY}" > ~/.aws/credentials
- 
+
 if [ -d "$SOURCE_DIR/variables" ]; then
     echo "Copying to variables folder"
     aws s3 sync ${SOURCE_DIR}/variables s3://${AWS_S3_BUCKET}/variables --exact-timestamps --delete --region ${AWS_DEFAULT_REGION} $*
@@ -49,12 +54,15 @@ fi
 if [ -d "$SOURCE_DIR/requirements" ]; then
     echo "Copying to requirements folder"
     aws s3 sync ${SOURCE_DIR}/requirements s3://${AWS_S3_BUCKET}/requirements --exact-timestamps --delete --region ${AWS_DEFAULT_REGION} $*
+    LATEST_VERSION=$(aws s3api list-object-versions --bucket ${AWS_S3_BUCKET} --prefix requirements/requirements.txt --query 'Versions[?IsLatest].[VersionId]' --output text)
+    echo "Updating MWAA requirements version to ${LATEST_VERSION}"
+    aws mwaa update-environment --name ${AWS_MWAA_ENVIRONMENT} --requirements-s3-object-version ${LATEST_VERSION}
 else
   if [ "`aws s3 ls s3://$AWS_S3_BUCKET/requirements/`" != "" ]; then
       echo "Remove requirements folder started"
       aws s3 rm s3://${AWS_S3_BUCKET}/requirements/ --recursive
       aws s3 rm s3://${AWS_S3_BUCKET}/requirements
-      echo "Remove requirements folder completed"      
+      echo "Remove requirements folder completed"
   fi
 fi
 
@@ -66,7 +74,7 @@ else
       echo "Remove dags folder started"
       aws s3 rm s3://${AWS_S3_BUCKET}/dags/ --recursive
       aws s3 rm s3://${AWS_S3_BUCKET}/dags
-      echo "Remove dags folder completed"      
+      echo "Remove dags folder completed"
   fi
 fi
 
@@ -78,7 +86,7 @@ else
       echo "Remove plugins folder started"
       aws s3 rm s3://${AWS_S3_BUCKET}/plugins/ --recursive
       aws s3 rm s3://${AWS_S3_BUCKET}/plugins
-      echo "Remove plugins folder completed"      
+      echo "Remove plugins folder completed"
   fi
 fi
 
@@ -90,7 +98,7 @@ else
       echo "Remove sql folder started"
       aws s3 rm s3://${AWS_S3_BUCKET}/sql/ --recursive
       aws s3 rm s3://${AWS_S3_BUCKET}/sql
-      echo "Remove sql folder completed"      
+      echo "Remove sql folder completed"
   fi
 fi
 
@@ -102,7 +110,7 @@ else
       echo "Remove turner_lib folder started"
       aws s3 rm s3://${AWS_S3_BUCKET}/turner_lib/ --recursive
       aws s3 rm s3://${AWS_S3_BUCKET}/turner_lib
-      echo "Remove turner_lib folder completed"      
+      echo "Remove turner_lib folder completed"
   fi
 fi
 

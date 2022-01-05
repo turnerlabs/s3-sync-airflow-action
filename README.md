@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
-    - uses: turnerlabs/s3-sync-airflow-action@master
+    - uses: PromiseNetwork/s3-sync-airflow-action@master
       env:
         SOURCE_DIR: ${{ github.workspace }}
         AWS_DEFAULT_REGION: 'us-east-1'
